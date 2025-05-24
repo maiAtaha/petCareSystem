@@ -12,8 +12,7 @@ const options = {
     },
     servers: [
         {
-            url: 'https://api.docai.online/api/',
-            description: 'Production server',
+            url: 'https://api.docai.online/api',
         },
 
     ],
