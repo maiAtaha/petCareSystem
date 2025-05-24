@@ -6,7 +6,7 @@ const petOwnerController = require("../controllers/petOwnerController");
 
 /**
  * @swagger
- * /petowners/register:
+ * /api/petOwners/register:
  *   post:
  *     summary: Register a new pet owner
  *     tags:
@@ -44,7 +44,7 @@ router.post("/register", petOwnerController.registerPetOwner);
 
 /**
  * @swagger
- * /petowners/login:
+ * /api/petOwners/login:
  *   post:
  *     summary: Login as a pet owner
  *     tags:

@@ -43,7 +43,7 @@ router.post("/", controller.bookAppointment);
 
 /**
  * @swagger
- * /appointments/{ownerId}:
+ * /api/appointments/{ownerId}:
  *   get:
  *     summary: Get all appointments for a specific owner
  *     tags:
@@ -65,7 +65,7 @@ router.get("/:ownerId", controller.getAppointmentsByOwner);
 
 /**
  * @swagger
- * /appointments/cancel/{id}:
+ * /api/appointments/cancel/{id}:
  *   patch:
  *     summary: Cancel an appointment
  *     tags:
@@ -86,7 +86,7 @@ router.get("/:ownerId", controller.getAppointmentsByOwner);
 router.put("/cancel/:id", controller.cancelAppointment);
 /**
  * @swagger
- * /appointments/reschedule/{id}:
+ * /api/appointments/reschedule/{id}:
  *   patch:
  *     summary: Reschedule an appointment
  *     tags:
@@ -119,7 +119,7 @@ router.put("/cancel/:id", controller.cancelAppointment);
 router.put("/reschedule/:id", controller.rescheduleAppointment);
 /**
  * @swagger
- * /appointments/next/{ownerId}:
+ * /api/appointments/next/{ownerId}:
  *   get:
  *     summary: Get the next upcoming appointment for an owner
  *     tags:

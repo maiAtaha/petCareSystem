@@ -4,7 +4,7 @@ const controller = require("../controllers/communityController");
 
 /**
  * @swagger
- * /community/post:
+ * /api/community:
  *   post:
  *     summary: Create a new community post
  *     tags:
@@ -39,7 +39,7 @@ router.post("/", controller.createPost);
 
 /**
  * @swagger
- * /community/posts:
+ * /api/community:
  *   get:
  *     summary: Get all community posts (most recent first)
  *     tags:
@@ -53,7 +53,7 @@ router.post("/", controller.createPost);
 router.get("/", controller.getAllPosts);
 /**
  * @swagger
- * /community/post/{id}:
+ * /api/community/{id}:
  *   delete:
  *     summary: Delete a community post by ID
  *     tags:
@@ -75,7 +75,7 @@ router.delete("/:id", controller.deletePost);
 
 /**
  * @swagger
- * /community/post/{id}/comment:
+ * /api/community/{id}/comment:
  *   post:
  *     summary: Add a comment to a specific community post
  *     tags:

@@ -6,7 +6,7 @@ router.post("/", controller.sendNotification);
 
 /**
  * @swagger
- * /notifications/user/{userId}:
+ * /api/notifications/{userId}:
  *   get:
  *     summary: Get all notifications for a specific user
  *     tags:
@@ -46,7 +46,7 @@ router.get("/:userId", controller.getUserNotifications);
 
 /**
  * @swagger
- * /notifications/{id}:
+ * /api/notifications/{id}:
  *   delete:
  *     summary: Delete a specific notification by ID
  *     tags:

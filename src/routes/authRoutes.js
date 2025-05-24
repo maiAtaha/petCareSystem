@@ -5,7 +5,7 @@ const controller = require("../controllers/authController");
 
 /**
  * @swagger
- * /auth/signup:
+ * /api/auth/signup:
  *   post:
  *     summary: Register a new user (pet owner or veterinary clinic)
  *     tags:
@@ -51,7 +51,7 @@ router.post("/signup", controller.signup);
 
 /**
  * @swagger
- * /auth/signin:
+ * /api/auth/signin:
  *   post:
  *     summary: Login a user (pet owner or veterinary clinic)
  *     tags:

@@ -4,7 +4,7 @@ const controller = require("../controllers/reviewController");
 
 /**
  * @swagger
- * /reviews:
+ * /api/reviews:
  *   post:
  *     summary: Add a review for a clinic
  *     tags: [Review]
@@ -54,7 +54,7 @@ const controller = require("../controllers/reviewController");
 router.post("/", controller.addReview);
 /**
  * @swagger
- * /reviews/clinic/{clinicId}:
+ * /api/reviews/clinic/{clinicId}:
  *   get:
  *     summary: Get all reviews for a specific clinic
  *     tags: [Review]
@@ -98,7 +98,7 @@ router.get("/:clinicId", controller.getReviewsByClinic);
 
 /**
  * @swagger
- * /reviews/{id}:
+ * /api/reviews/{id}:
  *   delete:
  *     summary: Delete a review by its ID
  *     tags: [Review]

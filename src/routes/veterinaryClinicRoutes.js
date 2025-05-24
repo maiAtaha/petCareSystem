@@ -6,7 +6,7 @@ const veterinaryClinicController = require("../controllers/veterinaryClinicContr
 
 /**
  * @swagger
- * /clinics/register:
+ * /api/clinics/register:
  *   post:
  *     summary: Register a new veterinary clinic
  *     tags: [Clinic]
@@ -61,7 +61,7 @@ router.post("/register", veterinaryClinicController.registerClinic);
 
 /**
  * @swagger
- * /clinics/login:
+ * /api/clinics/login:
  *   post:
  *     summary: Login a veterinary clinic
  *     tags: [Clinic]
@@ -113,7 +113,7 @@ router.post("/login", veterinaryClinicController.loginClinic);
 
 /**
  * @swagger
- * /clinics/address/{address}:
+ * /api/clinics/address/{address}:
  *   get:
  *     summary: Get up to 3 veterinary clinics by address
  *     tags: [Clinic]

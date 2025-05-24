@@ -5,7 +5,7 @@ const chatbotController = require("../controllers/chatbotController");
 
 /**
  * @swagger
- * /chatgpt/ask:
+ * /api/chatbot/ask:
  *   post:
  *     summary: Ask a question to ChatGPT (via OpenAI API)
  *     tags:

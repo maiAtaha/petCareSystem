@@ -5,7 +5,7 @@ const controller = require("../controllers/medicalRecordController");
 
 /**
  * @swagger
- * /medical-record:
+ * /api/medicalRecords:
  *   post:
  *     summary: Add a new medical record for a pet
  *     tags:
@@ -50,7 +50,7 @@ router.post("/", controller.addMedicalRecord);
 
 /**
  * @swagger
- * /medical-record/pet/{petId}:
+ * api/medicalRecords/{petId}:
  *   get:
  *     summary: Get all medical records for a specific pet
  *     tags:

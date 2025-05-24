@@ -5,7 +5,7 @@ const controller = require("../controllers/petProfileController");
 
 /**
  * @swagger
- * /pets:
+ * /api/petProfiles:
  *   post:
  *     summary: Add a new pet profile
  *     tags: [PetProfile]
@@ -58,7 +58,7 @@ const controller = require("../controllers/petProfileController");
 router.post("/", controller.addPetProfile);
 /**
  * @swagger
- * /pets/owner/{ownerId}:
+ * /api/petProfiles/{ownerId}:
  *   get:
  *     summary: Get all pet profiles by owner ID
  *     tags: [PetProfile]
@@ -99,7 +99,7 @@ router.post("/", controller.addPetProfile);
 router.get("/:ownerId", controller.getPetProfilesByOwner);
 /**
  * @swagger
- * /pets/{id}:
+ * /api/petProfiles/{id}:
  *   put:
  *     summary: Update a pet profile
  *     tags: [PetProfile]
