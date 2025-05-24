@@ -4,7 +4,7 @@ const controller = require("../controllers/appointmentController");
 
 /**
  * @swagger
- * /appointments:
+ * /api/appointments:
  *   post:
  *     summary: Book an appointment for a pet
  *     tags:
