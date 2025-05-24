@@ -10,6 +10,13 @@ const options = {
             version: '1.0.0',
         },
     },
+    servers: [
+        {
+            url: 'https://api.docai.online/api',
+            description: 'Production server',
+        },
+
+    ],
     apis: [path.resolve(__dirname, '../routes/*.js')],
 };
 
