@@ -64,3 +64,4 @@ jest-html-reporters-*
 *.env.local
 
 package-lock.json
+serviceAccountKey.json
