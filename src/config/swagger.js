@@ -7,7 +7,7 @@ const options = {
         openapi: '3.0.0',
         info: {
             title: 'My API',
-            version: '1.0.1',
+            version: '1.0.2',
         },
     },
     servers: [
