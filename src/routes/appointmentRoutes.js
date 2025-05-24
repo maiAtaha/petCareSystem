@@ -4,7 +4,7 @@ const controller = require("../controllers/appointmentController");
 
 /**
  * @swagger
- * /appointments/book:
+ * /appointments:
  *   post:
  *     summary: Book an appointment for a pet
  *     tags:
@@ -43,7 +43,7 @@ router.post("/", controller.bookAppointment);
 
 /**
  * @swagger
- * /appointments/owner/{ownerId}:
+ * /appointments/{ownerId}:
  *   get:
  *     summary: Get all appointments for a specific owner
  *     tags:
@@ -65,7 +65,7 @@ router.get("/:ownerId", controller.getAppointmentsByOwner);
 
 /**
  * @swagger
- * /appointments/{id}/cancel:
+ * /appointments/cancel/{id}:
  *   patch:
  *     summary: Cancel an appointment
  *     tags:
@@ -86,7 +86,7 @@ router.get("/:ownerId", controller.getAppointmentsByOwner);
 router.put("/cancel/:id", controller.cancelAppointment);
 /**
  * @swagger
- * /appointments/{id}/reschedule:
+ * /appointments/reschedule/{id}:
  *   patch:
  *     summary: Reschedule an appointment
  *     tags:
@@ -119,7 +119,7 @@ router.put("/cancel/:id", controller.cancelAppointment);
 router.put("/reschedule/:id", controller.rescheduleAppointment);
 /**
  * @swagger
- * /appointments/owner/{ownerId}/next:
+ * /appointments/next/{ownerId}:
  *   get:
  *     summary: Get the next upcoming appointment for an owner
  *     tags:
