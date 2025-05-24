@@ -32,7 +32,7 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/medicalRecords", medicalRecordRoutes);
 app.use("/api/auth", authRoutes);
 
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 const PORT = process.env.PORT || 3001;
