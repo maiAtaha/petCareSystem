@@ -32,5 +32,3 @@ exports.getMedicalRecordsByPet = async (req, res) => {
         res.status(500).json({ message: "Error fetching medical records", error: error.message });
     }
 };
-
-g
