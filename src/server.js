@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-
+const {swaggerUi, swaggerSpec} = require("./config/swagger");
 
 const app = express();
 app.use(cors());
@@ -32,10 +32,8 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/medicalRecords", medicalRecordRoutes);
 app.use("/api/auth", authRoutes);
 
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.get("/", (req, res) => {
-    res.send("Pets Care Backend is Running...");
-});
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
