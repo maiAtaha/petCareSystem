@@ -4,6 +4,8 @@ require("dotenv").config();
 const {swaggerUi, swaggerSpec} = require("./config/swagger");
 
 const app = express();
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(cors());
 app.use(express.json());
 
@@ -31,8 +33,6 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/medicalRecords", medicalRecordRoutes);
 app.use("/api/auth", authRoutes);
-
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 const PORT = process.env.PORT || 3001;

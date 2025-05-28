@@ -64,3 +64,6 @@ exports.signin = async (req, res) => {
         res.status(500).json({ message: "Signin error", error: error.message });
     }
 };
+exports.logout = async (req, res) => {
+    res.status(200).json({ message: "Logged out successfully" });
+};

@@ -1,7 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const controller = require("../controllers/authController");
+const authController = require("../controllers/authController");
 
+/**
+ * @swagger
+ * /api/auth/logout:
+ *   post:
+ *     summary: Log out the user (dummy endpoint)
+ *     tags:
+ *       - Authentication
+ *     responses:
+ *       200:
+ *         description: Logged out successfully
+ */
+router.post("/logout", authController.logout);
 
 /**
  * @swagger
@@ -47,7 +59,7 @@ const controller = require("../controllers/authController");
  *       500:
  *         description: Signup error
  */
-router.post("/signup", controller.signup);
+router.post("/signup", authController.signup);
 
 /**
  * @swagger
@@ -88,6 +100,6 @@ router.post("/signup", controller.signup);
  *       500:
  *         description: Signin error
  */
-router.post("/signin", controller.signin);
+router.post("/signin", authController.signin);
 
 module.exports = router;

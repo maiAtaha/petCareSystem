@@ -1,40 +1,35 @@
 const { db } = require("../config/firebase");
 
-exports.registerClinic = async (req, res) => {
+exports.getClinicProfile = async (req, res) => {
     try {
-        const { userName, email, password, phoneNumber, address, showHours } = req.body;
-        const clinicRef = await db.collection("VeterinaryClinic").add({
-            userName,
-            email,
-            password,
-            phoneNumber,
-            address,
-            showHours,
-        });
-        res.status(201).json({ message: "Clinic registered successfully", id: clinicRef.id });
-    } catch (error) {
-        res.status(500).json({ message: "Error registering clinic", error: error.message });
-    }
-};
+        const { id } = req.params;
+        const doc = await db.collection("VeterinaryClinic").doc(id).get();
 
-exports.loginClinic = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const snapshot = await db.collection("VeterinaryClinic")
-            .where("email", "==", email)
-            .where("password", "==", password)
-            .get();
-
-        if (snapshot.empty) {
-            return res.status(400).json({ message: "Invalid email or password" });
+        if (!doc.exists) {
+            return res.status(404).json({ message: "Clinic not found" });
         }
 
-        const clinic = snapshot.docs[0].data();
-        res.status(200).json({ message: "Login successful", clinic });
+        res.status(200).json({ id: doc.id, ...doc.data() });
     } catch (error) {
-        res.status(500).json({ message: "Error logging in", error: error.message });
+        res.status(500).json({ message: "Error fetching clinic profile", error: error.message });
     }
 };
+
+
+exports.updateClinicProfile = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updateData = req.body;
+
+        await db.collection("VeterinaryClinic").doc(id).update(updateData);
+
+        res.status(200).json({ message: "Clinic profile updated successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Error updating clinic profile", error: error.message });
+    }
+};
+
+
 exports.getClinicsByAddress = async (req, res) => {
     try {
         const { address } = req.params;

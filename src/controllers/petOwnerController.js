@@ -1,36 +1,43 @@
 const { db } = require("../config/firebase");
 
-exports.registerPetOwner = async (req, res) => {
+exports.getPetOwnerProfile = async (req, res) => {
     try {
-        const { userName, email, password, phoneNumber, address } = req.body;
-        const ownerRef = await db.collection("PetOwners").add({
-            userName,
-            email,
-            password,
-            phoneNumber,
-            address,
-        });
-        res.status(201).json({ message: "Pet Owner registered successfully", id: ownerRef.id });
-    } catch (error) {
-        res.status(500).json({ message: "Error registering Pet Owner", error: error.message });
-    }
-};
+        const { id } = req.params;
+        const doc = await db.collection("PetOwner").doc(id).get();
 
-exports.loginPetOwner = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const snapshot = await db.collection("PetOwners")
-            .where("email", "==", email)
-            .where("password", "==", password)
-            .get();
-
-        if (snapshot.empty) {
-            return res.status(400).json({ message: "Invalid email or password" });
+        if (!doc.exists) {
+            return res.status(404).json({ message: "Pet owner not found" });
         }
 
-        const user = snapshot.docs[0].data();
-        res.status(200).json({ message: "Login successful", user });
+        res.status(200).json({ id: doc.id, ...doc.data() });
     } catch (error) {
-        res.status(500).json({ message: "Error logging in", error: error.message });
+        res.status(500).json({ message: "Error fetching pet owner profile", error: error.message });
+    }
+};
+exports.updatePetOwnerProfile = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { username, email, phoneNumber, address, image } = req.body;
+
+        const docRef = db.collection("PetOwner").doc(id);
+        const doc = await docRef.get();
+
+        if (!doc.exists) {
+            return res.status(404).json({ message: "Pet owner not found" });
+        }
+
+        await docRef.update({
+            ...(username && { username }),
+            ...(email && { email }),
+            ...(phoneNumber && { phoneNumber }),
+            ...(address && { address }),
+            ...(image && { image }),
+        });
+
+        res.status(200).json({ message: "Profile updated successfully" });
+    } catch (error) {
+        res
+            .status(500)
+            .json({ message: "Error updating profile", error: error.message });
     }
 };
