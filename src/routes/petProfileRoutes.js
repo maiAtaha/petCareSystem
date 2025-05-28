@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/petProfileController");
 
-
 /**
  * @swagger
  * /api/petProfiles:
@@ -17,26 +16,43 @@ const controller = require("../controllers/petProfileController");
  *             type: object
  *             required:
  *               - ownerId
- *               - petName
- *               - type
+ *               - petId
+ *               - name
+ *               - birthDate
+ *               - species
+ *               - breed
+ *               - wight
+ *               - allergies
  *               - gender
- *               - age
  *             properties:
  *               ownerId:
  *                 type: string
  *                 example: "abc123"
- *               petName:
+ *               petId:
+ *                 type: string
+ *                 example: "pet456"
+ *               name:
  *                 type: string
  *                 example: "Buddy"
- *               type:
+ *               birthDate:
+ *                 type: string
+ *                 format: date
+ *                 example: "2021-05-10"
+ *               species:
  *                 type: string
  *                 example: "Dog"
+ *               breed:
+ *                 type: string
+ *                 example: "Labrador"
+ *               wight:
+ *                 type: number
+ *                 example: 12.5
+ *               allergies:
+ *                 type: string
+ *                 example: "None"
  *               gender:
  *                 type: string
  *                 example: "Male"
- *               age:
- *                 type: number
- *                 example: 3
  *               imageUrl:
  *                 type: string
  *                 example: "https://example.com/image.jpg"
@@ -54,7 +70,17 @@ const controller = require("../controllers/petProfileController");
  *                   type: string
  *       500:
  *         description: Error adding pet
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 error:
+ *                   type: string
  */
+
 router.post("/", controller.addPetProfile);
 /**
  * @swagger
