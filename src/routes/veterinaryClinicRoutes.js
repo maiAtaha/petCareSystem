@@ -5,6 +5,7 @@ const veterinaryClinicController = require("../controllers/veterinaryClinicContr
 
 router.get("/profile/:id", veterinaryClinicController.getClinicProfile);
 router.put("/profile/:id", veterinaryClinicController.updateClinicProfile);
+router.get("/search", controller.searchClinics);
 
 /**
  * @swagger

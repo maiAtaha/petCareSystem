@@ -11,6 +11,7 @@
   "keywords": [],
   "description": "",
   "dependencies": {
+    "algoliasearch": "^5.25.0",
     "axios": "^1.9.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",

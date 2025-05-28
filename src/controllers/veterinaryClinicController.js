@@ -1,4 +1,5 @@
 const { db } = require("../config/firebase");
+const index = require("../config/algolia");
 
 exports.getClinicProfile = async (req, res) => {
     try {
@@ -26,6 +27,48 @@ exports.updateClinicProfile = async (req, res) => {
         res.status(200).json({ message: "Clinic profile updated successfully" });
     } catch (error) {
         res.status(500).json({ message: "Error updating clinic profile", error: error.message });
+    }
+};
+
+exports.addClinic = async (req, res) => {
+    try {
+        const { name, address, specialty, phoneNumber, email } = req.body;
+
+        const clinicRef = await db.collection("VeterinaryClinic").add({
+            name,
+            address,
+            specialty,
+            phoneNumber,
+            email
+        });
+
+
+        // Add to Algolia
+        await index.saveObject({
+            objectID: clinicRef.id,
+            name,
+            address,
+            specialty,
+            phoneNumber,
+            email
+        });
+
+        res.status(201).json({ message: "Clinic added successfully", id: clinicRef.id });
+    } catch (error) {
+        res.status(500).json({ message: "Error adding clinic", error: error.message });
+    }
+};
+exports.searchClinics = async (req, res) => {
+    try {
+        const query = req.query.q;
+        const results = await index.search(query, {
+            attributesToRetrieve: ['name', 'address', 'specialty'],
+            hitsPerPage: 10,
+        });
+
+        res.status(200).json(results.hits);
+    } catch (error) {
+        res.status(500).json({ message: "Error searching clinics", error: error.message });
     }
 };
 

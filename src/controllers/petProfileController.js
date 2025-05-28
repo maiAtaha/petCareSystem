@@ -2,14 +2,18 @@ const { db } = require("../config/firebase");
 
 exports.addPetProfile = async (req, res) => {
     try {
-        const { ownerId, petName, type, gender, age, imageUrl } = req.body;
+        const { ownerId,petId, name,birthDate,species, breed,wight, allergies,gender, imageUrl} = req.body;
 
         const docRef = await db.collection("PetProfile").add({
             ownerId,
-            petName,
-            type,
+            petId,
+            name,
+            species,
+            breed,
+            wight,
+            allergies,
+            birthDate,
             gender,
-            age,
             imageUrl,
         });
 
