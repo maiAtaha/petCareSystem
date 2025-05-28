@@ -65,3 +65,4 @@ jest-html-reporters-*
 
 package-lock.json
 serviceAccountKey.json
+swagger.json
