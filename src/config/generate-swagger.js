@@ -8,7 +8,7 @@ const options = {
         openapi: '3.0.0',
         info: {
             title: 'My API',
-            version: '1.0.4',
+            version: '1.0.5',
         },
         servers: [
             { url: 'https://api.docai.online/' },
