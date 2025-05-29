@@ -5,7 +5,13 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('../swagger.json');
 const app = express();
 
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/docs', (req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    next();
+}, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use(cors());
 app.use(express.json());
 
