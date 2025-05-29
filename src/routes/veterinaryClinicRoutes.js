@@ -2,65 +2,7 @@ const express = require("express");
 const router = express.Router();
 const veterinaryClinicController = require("../controllers/veterinaryClinicController");
 
-/**
- * @swagger
- * /api/clinics:
- *   post:
- *     summary: Add a new clinic
- *     tags: [Clinic]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - name
- *               - address
- *               - specialty
- *               - phoneNumber
- *               - email
- *             properties:
- *               name:
- *                 type: string
- *                 example: "Healthy Paws Clinic"
- *               address:
- *                 type: string
- *                 example: "123 Main Street, City"
- *               specialty:
- *                 type: string
- *                 example: "General Veterinary"
- *               phoneNumber:
- *                 type: string
- *                 example: "+1234567890"
- *               email:
- *                 type: string
- *                 example: "clinic@example.com"
- *     responses:
- *       201:
- *         description: Clinic added successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                 id:
- *                   type: string
- *       500:
- *         description: Error adding clinic
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                 error:
- *                   type: string
- */
-router.post("/addClinic", veterinaryClinicController.addClinic);
+
 
 /**
  * @swagger
