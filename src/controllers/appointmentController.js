@@ -78,3 +78,36 @@ exports.getNextAppointment = async (req, res) => {
         res.status(500).json({ message: "Error fetching next appointment", error: error.message });
     }
 };
+exports.getAppointmentsByStatus = async (req, res) => {
+    try {
+        const { ownerId, status } = req.query;
+
+        if (!ownerId || !status) {
+            return res.status(400).json({ message: "Missing ownerId or status" });
+        }
+
+        const snapshot = await db.collection("Appointment")
+            .where("ownerId", "==", ownerId)
+            .where("status", "==", status)
+            .get();
+
+        const appointments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        res.status(200).json(appointments);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching appointments", error: error.message });
+    }
+};
+exports.getAppointmentsByPet = async (req, res) => {
+    try {
+        const { petId } = req.params;
+
+        const snapshot = await db.collection("Appointment")
+            .where("petId", "==", petId)
+            .get();
+
+        const appointments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        res.status(200).json(appointments);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching pet appointments", error: error.message });
+    }
+};

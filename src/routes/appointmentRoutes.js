@@ -139,4 +139,126 @@ router.put("/reschedule/:id", controller.rescheduleAppointment);
  */
 router.get("/next/:ownerId", controller.getNextAppointment);
 
+/**
+ * @swagger
+ * /api/appointments:
+ *   get:
+ *     summary: Get appointments by owner ID and status
+ *     tags: [Appointment]
+ *     parameters:
+ *       - in: query
+ *         name: ownerId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the pet owner
+ *       - in: query
+ *         name: status
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [pending, approved, rejected, completed]
+ *         description: The status of the appointment
+ *     responses:
+ *       200:
+ *         description: List of appointments
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                   ownerId:
+ *                     type: string
+ *                   clinicId:
+ *                     type: string
+ *                   petId:
+ *                     type: string
+ *                   date:
+ *                     type: string
+ *                     format: date-time
+ *                   status:
+ *                     type: string
+ *                   reason:
+ *                     type: string
+ *       400:
+ *         description: Missing ownerId or status
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       500:
+ *         description: Error fetching appointments
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 error:
+ *                   type: string
+ */
+router.get("/byStatus", controller.getAppointmentsByStatus);
+
+
+/**
+ * @swagger
+ * /api/appointments/pet/{petId}:
+ *   get:
+ *     summary: Get appointments by pet ID
+ *     tags: [Appointment]
+ *     parameters:
+ *       - in: path
+ *         name: petId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the pet
+ *     responses:
+ *       200:
+ *         description: List of appointments for the specified pet
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                   petId:
+ *                     type: string
+ *                   ownerId:
+ *                     type: string
+ *                   clinicId:
+ *                     type: string
+ *                   date:
+ *                     type: string
+ *                     format: date-time
+ *                   status:
+ *                     type: string
+ *                   reason:
+ *                     type: string
+ *       500:
+ *         description: Error fetching pet appointments
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 error:
+ *                   type: string
+ */
+router.get("/pet/:petId", controller.getAppointmentsByPet);
+
+
 module.exports = router;

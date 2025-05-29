@@ -1,5 +1,4 @@
 const { db } = require("../config/firebase");
-const index = require("../config/algolia");
 
 exports.getClinicProfile = async (req, res) => {
     try {
@@ -29,7 +28,7 @@ exports.updateClinicProfile = async (req, res) => {
         res.status(500).json({ message: "Error updating clinic profile", error: error.message });
     }
 };
-
+/**
 exports.addClinic = async (req, res) => {
     try {
         const { name, address, specialty, phoneNumber, email } = req.body;
@@ -58,20 +57,7 @@ exports.addClinic = async (req, res) => {
         res.status(500).json({ message: "Error adding clinic", error: error.message });
     }
 };
-exports.searchClinics = async (req, res) => {
-    try {
-        const query = req.query.q;
-        const results = await index.search(query, {
-            attributesToRetrieve: ['name', 'address', 'specialty'],
-            hitsPerPage: 10,
-        });
-
-        res.status(200).json(results.hits);
-    } catch (error) {
-        res.status(500).json({ message: "Error searching clinics", error: error.message });
-    }
-};
-
+**/
 
 exports.getClinicsByAddress = async (req, res) => {
     try {
@@ -86,5 +72,29 @@ exports.getClinicsByAddress = async (req, res) => {
         res.status(200).json(clinics.slice(0, 3));
     } catch (error) {
         res.status(500).json({ message: "Error fetching clinics", error: error.message });
+    }
+};
+
+exports.searchClinics = async (req, res) => {
+    try {
+        const keyword = req.query.q?.toLowerCase();
+
+        if (!keyword) {
+            return res.status(400).json({ message: "Missing search keyword" });
+        }
+
+        const snapshot = await db.collection("VeterinaryClinic").get();
+
+        const results = snapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() }))
+            .filter(clinic =>
+                clinic.name?.toLowerCase().includes(keyword) ||
+                clinic.address?.toLowerCase().includes(keyword) ||
+                clinic.specialty?.toLowerCase().includes(keyword)
+            );
+
+        res.status(200).json(results);
+    } catch (error) {
+        res.status(500).json({ message: "Search error", error: error.message });
     }
 };

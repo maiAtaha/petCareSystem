@@ -30,7 +30,7 @@ exports.signup = async (req, res) => {
 
         const docRef = await db.collection(collectionName).add(newUser);
 
-        res.status(201).json({ message: "User registered successfully", id: docRef.id });
+        res.status(201).json({ message: "User registered successfully", user: docRef });
     } catch (error) {
         res.status(500).json({ message: "Signup error", error: error.message });
     }
