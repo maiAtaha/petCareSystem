@@ -4,7 +4,7 @@ const saltRounds = 10;
 
 exports.signup = async (req, res) => {
     try {
-        const { role, email, password, username, phoneNumber, address } = req.body;
+        const { role, email, password, username, phoneNumber, address , imgUrl } = req.body;
 
         if (!["petOwner", "veterinaryClinic"].includes(role)) {
             return res.status(400).json({ message: "Invalid role" });
@@ -25,6 +25,7 @@ exports.signup = async (req, res) => {
             username,
             phoneNumber,
             address,
+            imgUrl,
             role,
         };
 

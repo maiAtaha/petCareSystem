@@ -13,7 +13,7 @@ exports.bookAppointment = async (req, res) => {
             status: "upcoming"
         });
 
-        res.status(201).json({ message: "Appointment booked successfully", id: docRef.id });
+        res.status(201).json({ message: "Appointment booked successfully", data:{ id: docRef.id }});
     } catch (error) {
         res.status(500).json({ message: "Error booking appointment", error: error.message });
     }

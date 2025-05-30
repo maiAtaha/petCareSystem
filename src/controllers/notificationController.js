@@ -10,7 +10,7 @@ exports.sendNotification = async (req, res) => {
             message,
             timestamp: new Date().toISOString()
         });
-
+/////////////////////////////////
         res.status(201).json({ message: "Notification sent", id: docRef.id });
     } catch (error) {
         res.status(500).json({ message: "Error sending notification", error: error.message });
