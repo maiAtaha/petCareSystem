@@ -1,61 +1,41 @@
 const { db } = require("../config/firebase");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+
 exports.signup = async (req, res) => {
+
     try {
-        const { role, email, password, username, phoneNumber, address, imgUrl } = req.body;
+            const { role, email, password, username, phoneNumber, address } = req.body;
 
-        if (!["petOwner", "veterinaryClinic"].includes(role)) {
-            return res.status(400).json({ message: "Invalid role" });
+            if (!["petOwner", "veterinaryClinic"].includes(role)) {
+                return res.status(400).json({ message: "Invalid role" });
+            }
+
+            const collectionName = role === "petOwner" ? "PetOwner" : "VeterinaryClinic";
+
+            const existingUser = await db.collection(collectionName).where("email", "==", email).get();
+            if (!existingUser.empty) {
+                return res.status(400).json({ message: "Email already exists" });
+            }
+
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+            const newUser = {
+                email,
+                password: hashedPassword,
+                username,
+                phoneNumber,
+                address,
+                role,
+            };
+
+            const docRef = await db.collection(collectionName).add(newUser);
+
+            res.status(201).json({ message: "User registered successfully", id: docRef.id });
+        } catch (error) {
+            res.status(500).json({ message: "Signup error", error: error.message });
         }
-
-        const collectionName = role === "petOwner" ? "PetOwner" : "VeterinaryClinic";
-
-        const existingUser = await db.collection(collectionName).where("email", "==", email).get();
-        if (!existingUser.empty) {
-            return res.status(400).json({ message: "Email already exists" });
-        }
-
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-        const newUser = {
-            email,
-            password: hashedPassword,
-            username,
-            phoneNumber,
-            address,
-            imgUrl,
-            role,
-        };
-
-        const docRef = await db.collection(collectionName).add({
-            ...newUser,
-            userId: "",
-        });
-
-        const additionalField =
-            role === "petOwner"
-                ? { petOwnerId: docRef.id }
-                : { clinicId: docRef.id };
-
-        await db.collection(collectionName).doc(docRef.id).update({
-            userId: docRef.id,
-            ...additionalField,
-        });
-
-        res.status(201).json({
-            message: "User registered successfully",
-            user: {
-                id: docRef.id,
-                userId: docRef.id,
-                ...newUser,
-                ...additionalField,
-            },
-        });
-    } catch (error) {
-        res.status(500).json({ message: "Signup error", error: error.message });
-    }
-};
+    };
 
 
 exports.signin = async (req, res) => {
