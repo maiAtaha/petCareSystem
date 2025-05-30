@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate-swagger": "node src/config/generate-swagger.js"
+    "generate-swagger": "node src/config/generate-swagger.js",
+    "swagger": "rm -rf swagger.json; node src/config/generate-swagger.js; pm2 restart PetServer"
   },
   "author": "",
   "license": "ISC",
