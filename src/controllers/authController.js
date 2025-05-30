@@ -4,7 +4,7 @@ const saltRounds = 10;
 
 exports.signup = async (req, res) => {
     try {
-        const { role, email, password, username, phoneNumber, address , imgUrl } = req.body;
+        const { role, email, password, username, phoneNumber, address, imgUrl } = req.body;
 
         if (!["petOwner", "veterinaryClinic"].includes(role)) {
             return res.status(400).json({ message: "Invalid role" });
@@ -29,13 +29,35 @@ exports.signup = async (req, res) => {
             role,
         };
 
-        const docRef = await db.collection(collectionName).add(newUser);
+        const docRef = await db.collection(collectionName).add({
+            ...newUser,
+            userId: "",
+        });
 
-        res.status(201).json({ message: "User registered successfully", user: docRef });
+        const additionalField =
+            role === "petOwner"
+                ? { petOwnerId: docRef.id }
+                : { clinicId: docRef.id };
+
+        await db.collection(collectionName).doc(docRef.id).update({
+            userId: docRef.id,
+            ...additionalField,
+        });
+
+        res.status(201).json({
+            message: "User registered successfully",
+            user: {
+                id: docRef.id,
+                userId: docRef.id,
+                ...newUser,
+                ...additionalField,
+            },
+        });
     } catch (error) {
         res.status(500).json({ message: "Signup error", error: error.message });
     }
 };
+
 
 exports.signin = async (req, res) => {
     try {
