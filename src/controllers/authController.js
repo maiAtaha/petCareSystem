@@ -58,7 +58,6 @@ exports.signup = async (req, res) => {
     }
 };
 
-
 exports.signin = async (req, res) => {
     try {
         const { email, password, role } = req.body;
