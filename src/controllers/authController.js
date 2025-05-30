@@ -1,7 +1,6 @@
 const { db } = require("../config/firebase");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-
 exports.signup = async (req, res) => {
     try {
         const { role, email, password, username, phoneNumber, address, imgUrl } = req.body;
@@ -57,6 +56,7 @@ exports.signup = async (req, res) => {
         res.status(500).json({ message: "Signup error", error: error.message });
     }
 };
+
 
 exports.signin = async (req, res) => {
     try {
