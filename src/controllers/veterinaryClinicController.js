@@ -88,9 +88,8 @@ exports.searchClinics = async (req, res) => {
         const results = snapshot.docs
             .map(doc => ({ id: doc.id, ...doc.data() }))
             .filter(clinic =>
-                clinic.name?.toLowerCase().includes(keyword) ||
-                clinic.address?.toLowerCase().includes(keyword) ||
-                clinic.specialty?.toLowerCase().includes(keyword)
+                clinic.username?.toLowerCase().includes(keyword) ||
+                clinic.address?.toLowerCase().includes(keyword) 
             );
 
         res.status(200).json(results);
