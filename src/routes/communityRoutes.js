@@ -1,6 +1,44 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/communityController");
+const upload = require("../helpers/upload");
+
+/**
+ * @swagger
+ * /api/community/upload:
+ *   post:
+ *     summary: Upload an image for a community post
+ *     tags:
+ *       - Community
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Image uploaded successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 imageUrl:
+ *                   type: string
+ *                   description: The Cloudinary URL of the uploaded image
+ *       400:
+ *         description: No file uploaded
+ *       500:
+ *         description: Error uploading image
+ */
+router.post("/upload", upload.single('image'), controller.uploadImage);
 
 /**
  * @swagger

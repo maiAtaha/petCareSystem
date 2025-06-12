@@ -1,5 +1,29 @@
 const { db } = require("../config/firebase");
+const cloudinary = require('../config/cloudinary');
+const fs = require('fs');
 
+exports.uploadImage = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: "No file uploaded" });
+        }
+
+        const result = await cloudinary.uploader.upload(req.file.path);
+        let profileImage = result.secure_url;
+        fs.unlinkSync(req.file.path);
+
+        res.status(200).json({
+            message: "Image uploaded successfully",
+            imageUrl: profileImage
+        });
+    } catch (error) {
+        // Clean up the temporary file in case of error
+        if (req.file && req.file.path) {
+            fs.unlinkSync(req.file.path);
+        }
+        res.status(500).json({ message: "Error uploading image", error: error.message });
+    }
+};
 
 exports.createPost = async (req, res) => {
     try {
@@ -19,7 +43,6 @@ exports.createPost = async (req, res) => {
     }
 };
 
-
 exports.getAllPosts = async (req, res) => {
     try {
         const snapshot = await db.collection("Community").orderBy("timestamp", "desc").get();
@@ -30,9 +53,6 @@ exports.getAllPosts = async (req, res) => {
         res.status(500).json({ message: "Error fetching posts", error: error.message });
     }
 };
-
-
-
 
 exports.deletePost = async (req, res) => {
     try {
