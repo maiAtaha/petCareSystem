@@ -39,7 +39,7 @@ exports.getUserUpcomingNotifications = async (req, res) => {
 
         const appointmentsSnapshot = await db
             .collection("Appointment")
-            .where("ownerId", "==", ownerId)
+            .where("ownerId", "==", userId)
             .where("status", "==", "upcoming")
             .get();
 
