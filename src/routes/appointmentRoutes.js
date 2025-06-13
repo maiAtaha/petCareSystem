@@ -4,40 +4,76 @@ const controller = require("../controllers/appointmentController");
 
 /**
  * @swagger
- * /api/appointments:
- *   post:
- *     summary: Book an appointment for a pet
- *     tags:
- *       - Appointments
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - petId
- *               - clinicId
- *               - ownerId
- *               - date
- *               - service
- *             properties:
- *               petId:
- *                 type: string
- *               clinicId:
- *                 type: string
- *               ownerId:
- *                 type: string
- *               date:
- *                 type: string
- *                 format: date-time
- *               service:
- *                 type: string
- *     responses:
- *       201:
- *         description: Appointment booked successfully
- *       500:
- *         description: Error booking appointment
+ * paths:
+ *   /api/appointments/book:
+ *     post:
+ *       tags:
+ *         - Appointments
+ *       summary: Book a new appointment and create a notification
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - petId
+ *                 - clinicId
+ *                 - ownerId
+ *                 - date
+ *                 - service
+ *               properties:
+ *                 petId:
+ *                   type: string
+ *                   example: pet123
+ *                   description: ID of the pet
+ *                 clinicId:
+ *                   type: string
+ *                   example: clinic456
+ *                   description: ID of the veterinary clinic
+ *                 ownerId:
+ *                   type: string
+ *                   example: owner789
+ *                   description: ID of the pet owner
+ *                 date:
+ *                   type: string
+ *                   format: date-time
+ *                   example: 2025-06-15T09:00:00.000Z
+ *                   description: Appointment date and time
+ *                 service:
+ *                   type: string
+ *                   example: Vaccination
+ *                   description: The service requested
+ *       responses:
+ *         '201':
+ *           description: Appointment booked successfully and notification created
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   message:
+ *                     type: string
+ *                     example: Appointment booked successfully
+ *                   data:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: a1b2c3d4
+ *         '500':
+ *           description: Error booking appointment
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   message:
+ *                     type: string
+ *                     example: Error booking appointment
+ *                   error:
+ *                     type: string
+ *                     example: Detailed error message
  */
 router.post("/", controller.bookAppointment);
 
