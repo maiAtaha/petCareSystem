@@ -1,6 +1,6 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('../swagger.json');
 const app = express();
@@ -16,17 +16,16 @@ app.use(cors());
 app.use(express.json());
 
 
-const petOwnerRoutes = require("./routes/petOwnerRoutes");
-const veterinaryClinicRoutes = require("./routes/veterinaryClinicRoutes");
-const petProfileRoutes = require("./routes/petProfileRoutes");
-const appointmentRoutes = require("./routes/appointmentRoutes");
-const chatbotRoutes = require("./routes/chatbotRoutes");
-const communityRoutes = require("./routes/communityRoutes");
-const notificationRoutes = require("./routes/notificationRoutes");
-const reviewRoutes = require("./routes/reviewRoutes");
-const medicalRecordRoutes = require("./routes/medicalRecordRoutes");
-const authRoutes = require("./routes/authRoutes");
-
+const petOwnerRoutes = require("./src/routes/petOwnerRoutes");
+const veterinaryClinicRoutes = require("./src/routes/veterinaryClinicRoutes");
+const petProfileRoutes = require("./src/routes/petProfileRoutes");
+const appointmentRoutes = require("./src/routes/appointmentRoutes");
+const chatbotRoutes = require("./src/routes/chatbotRoutes");
+const communityRoutes = require("./src/routes/communityRoutes");
+const notificationRoutes = require("./src/routes/notificationRoutes");
+const reviewRoutes = require("./src/routes/reviewRoutes");
+const medicalRecordRoutes = require("./src/routes/medicalRecordRoutes");
+const authRoutes = require("./src/routes/authRoutes");
 
 
 app.use("/api/petOwners", petOwnerRoutes);
