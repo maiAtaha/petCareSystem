@@ -33,7 +33,7 @@ exports.getClinicNotifications = async (req, res) => {
 };
 exports.getUserUpcomingNotifications = async (req, res) => {
     try {
-        const { ownerId } = req.params;
+        const { userId } = req.params;
         const now = new Date();
         const twoDaysLater = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000); // الآن + 48 ساعة
 
