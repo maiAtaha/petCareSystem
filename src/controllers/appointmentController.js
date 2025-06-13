@@ -1,5 +1,4 @@
 const { db } = require("../config/firebase");
-
 exports.bookAppointment = async (req, res) => {
     try {
         const { petId, clinicId, ownerId, date, service } = req.body;
@@ -13,9 +12,36 @@ exports.bookAppointment = async (req, res) => {
             status: "upcoming"
         });
 
-        res.status(201).json({ message: "Appointment booked successfully", data:{ id: docRef.id }});
+        const petDoc = await db.collection("Pets").doc(petId).get();
+        const ownerDoc = await db.collection("Users").doc(ownerId).get();
+
+        const petName = petDoc.exists ? petDoc.data().name : "Unknown Pet";
+        const ownerData = ownerDoc.exists ? ownerDoc.data() : {};
+        const ownerName = ownerData.name || "Unknown Owner";
+        const ownerPhone = ownerData.phone || null;
+
+
+        await db.collection("Notification").add({
+            title: "New Appointment",
+            petId,
+            clinicId,
+            ownerId,
+            ownerPhone: ownerPhone,
+            date,
+            service,
+            createdAt: new Date()
+        });
+
+        res.status(201).json({
+            message: "Appointment booked successfully",
+            data: { id: docRef.id }
+        });
+
     } catch (error) {
-        res.status(500).json({ message: "Error booking appointment", error: error.message });
+        res.status(500).json({
+            message: "Error booking appointment",
+            error: error.message
+        });
     }
 };
 
