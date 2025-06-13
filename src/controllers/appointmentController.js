@@ -52,7 +52,26 @@ exports.getAppointmentsByOwner = async (req, res) => {
         const snapshot = await db.collection("Appointment").where("ownerId", "==", ownerId).get();
         const appointments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-        res.status(200).json(appointments);
+        // Get clinic data for each appointment
+        const appointmentsWithClinicData = await Promise.all(
+            appointments.map(async (appointment) => {
+                const clinicDoc = await db.collection("VeterinaryClinic").doc(appointment.clinicId).get();
+                const clinicData = clinicDoc.exists ? clinicDoc.data() : null;
+                
+                return {
+                    ...appointment,
+                    clinic: clinicData ? {
+                        id: clinicDoc.id,
+                        name: clinicData.username,
+                        address: clinicData.address,
+                        phoneNumber: clinicData.phoneNumber,
+                        email: clinicData.email
+                    } : null
+                };
+            })
+        );
+
+        res.status(200).json(appointmentsWithClinicData);
     } catch (error) {
         res.status(500).json({ message: "Error fetching appointments", error: error.message });
     }
@@ -99,11 +118,29 @@ exports.getNextAppointment = async (req, res) => {
         }
 
         const doc = snapshot.docs[0];
-        res.status(200).json({ id: doc.id, ...doc.data() });
+        const appointment = { id: doc.id, ...doc.data() };
+
+        // Get clinic data
+        const clinicDoc = await db.collection("VeterinaryClinic").doc(appointment.clinicId).get();
+        const clinicData = clinicDoc.exists ? clinicDoc.data() : null;
+
+        const appointmentWithClinic = {
+            ...appointment,
+            clinic: clinicData ? {
+                id: clinicDoc.id,
+                name: clinicData.username,
+                address: clinicData.address,
+                phoneNumber: clinicData.phoneNumber,
+                email: clinicData.email
+            } : null
+        };
+
+        res.status(200).json(appointmentWithClinic);
     } catch (error) {
         res.status(500).json({ message: "Error fetching next appointment", error: error.message });
     }
 };
+
 exports.getAppointmentsByStatus = async (req, res) => {
     try {
         const { ownerId, status } = req.query;
@@ -118,11 +155,32 @@ exports.getAppointmentsByStatus = async (req, res) => {
             .get();
 
         const appointments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        res.status(200).json(appointments);
+
+        // Get clinic data for each appointment
+        const appointmentsWithClinicData = await Promise.all(
+            appointments.map(async (appointment) => {
+                const clinicDoc = await db.collection("VeterinaryClinic").doc(appointment.clinicId).get();
+                const clinicData = clinicDoc.exists ? clinicDoc.data() : null;
+                
+                return {
+                    ...appointment,
+                    clinic: clinicData ? {
+                        id: clinicDoc.id,
+                        name: clinicData.username,
+                        address: clinicData.address,
+                        phoneNumber: clinicData.phoneNumber,
+                        email: clinicData.email
+                    } : null
+                };
+            })
+        );
+
+        res.status(200).json(appointmentsWithClinicData);
     } catch (error) {
         res.status(500).json({ message: "Error fetching appointments", error: error.message });
     }
 };
+
 exports.getAppointmentsByPet = async (req, res) => {
     try {
         const { petId } = req.params;
@@ -132,7 +190,27 @@ exports.getAppointmentsByPet = async (req, res) => {
             .get();
 
         const appointments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        res.status(200).json(appointments);
+
+        // Get clinic data for each appointment
+        const appointmentsWithClinicData = await Promise.all(
+            appointments.map(async (appointment) => {
+                const clinicDoc = await db.collection("VeterinaryClinic").doc(appointment.clinicId).get();
+                const clinicData = clinicDoc.exists ? clinicDoc.data() : null;
+                
+                return {
+                    ...appointment,
+                    clinic: clinicData ? {
+                        id: clinicDoc.id,
+                        name: clinicData.username,
+                        address: clinicData.address,
+                        phoneNumber: clinicData.phoneNumber,
+                        email: clinicData.email
+                    } : null
+                };
+            })
+        );
+
+        res.status(200).json(appointmentsWithClinicData);
     } catch (error) {
         res.status(500).json({ message: "Error fetching pet appointments", error: error.message });
     }
